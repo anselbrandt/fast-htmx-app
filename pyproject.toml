@@ -1,0 +1,15 @@
+[project]
+name = "fast-htmx-app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.115.6",
+    "pytest>=8.3.4",
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+test = "uv run pytest"
+dev = "uv run uvicorn app.main:app --reload --reload-include '**/*.html' --reload-include '**/*.css'"
