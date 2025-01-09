@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app.constants import ROOT_PATH
-from app.routers import auth_routes, user_routes
+from app.routers import auth_routes, login_routes, user_routes
 
 
 @asynccontextmanager
@@ -23,6 +23,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(root_path=ROOT_PATH, lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(auth_routes)
+app.include_router(login_routes)
 app.include_router(user_routes)
 templates = Jinja2Templates(directory="templates")
 
