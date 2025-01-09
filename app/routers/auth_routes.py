@@ -10,6 +10,9 @@ from app.constants import (
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
     GOOGLE_REDIRECT_URI,
+    MICROSOFT_CLIENT_ID,
+    MICROSOFT_CLIENT_SECRET,
+    MICROSOFT_REDIRECT_URI,
 )
 
 router = APIRouter(prefix="/auth")
@@ -20,7 +23,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 @router.get("/github")
-async def auth_google(code: str):
+async def auth_github(code: str):
     token_url = f"https://github.com/login/oauth/access_token"
     params = {
         "client_id": GITHUB_CLIENT_ID,
@@ -62,6 +65,27 @@ async def auth_google(code: str):
     access_token = response.json().get("access_token")
     user_info = httpx.get(
         "https://www.googleapis.com/oauth2/v1/userinfo",
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
+    return user_info.json()
+
+
+@router.get("/microsoft")
+async def auth_microsoft(code: str):
+    token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
+    data = {
+        "client_id": MICROSOFT_CLIENT_ID,
+        "scope": "User.Read",
+        "code": code,
+        "redirect_uri": MICROSOFT_REDIRECT_URI,
+        "grant_type": "authorization_code",
+        "client_secret": MICROSOFT_CLIENT_SECRET,
+    }
+    headers = {"Accept": "application/json"}
+    response = httpx.post(token_url, data=data, headers=headers)
+    access_token = response.json().get("access_token")
+    user_info = httpx.get(
+        "https://graph.microsoft.com/v1.0/me",
         headers={"Authorization": f"Bearer {access_token}"},
     )
     return user_info.json()
