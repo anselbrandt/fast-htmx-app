@@ -13,7 +13,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 @router.get("/profile", response_class=HTMLResponse)
-def root(
+def user_profile(
     request: Request, response: Response, hx_request: Optional[str] = Header(None)
 ):
     context = {

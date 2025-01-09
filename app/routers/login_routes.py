@@ -20,7 +20,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 @router.get("/", response_class=HTMLResponse)
-def root(
+def login(
     request: Request, response: Response, hx_request: Optional[str] = Header(None)
 ):
     context = {
