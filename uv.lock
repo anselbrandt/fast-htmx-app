@@ -148,8 +148,12 @@ dependencies = [
     { name = "fastapi", extra = ["standard"] },
     { name = "httpx" },
     { name = "pyjwt", extra = ["crypto"] },
-    { name = "pytest" },
     { name = "taskipy" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
 ]
 
 [package.metadata]
@@ -157,9 +161,11 @@ requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.6" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "pyjwt", extras = ["crypto"], specifier = ">=2.10.1" },
-    { name = "pytest", specifier = ">=8.3.4" },
     { name = "taskipy", specifier = ">=1.14.1" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8.3.4" }]
 
 [[package]]
 name = "fastapi"
