@@ -43,6 +43,6 @@ async def root(
 
 
 @app.get("/health")
-async def root(request: Request, response: Response):
+async def health(request: Request, response: Response):
     response.status_code = status.HTTP_200_OK
     return {"status": "healthy"}
