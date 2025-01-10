@@ -14,10 +14,15 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pytest>=8.3.4",
+    "ruff>=0.9.0",
 ]
+
+[tool.ruff]
+include = ["pyproject.toml", "app/**/*.py", "tests/**/*.py", "utils/**/*.py"]
 
 [tool.taskipy.tasks]
 test = "uv run pytest"
 dev = "uv run uvicorn app.main:app --reload --reload-include '**/*.html' --reload-include '**/*.css'"
 start = "uv run uvicorn app.main:app"
 buildcss = "./tailwindcss -o static/tailwind.css"
+lint = "uv run ruff check"

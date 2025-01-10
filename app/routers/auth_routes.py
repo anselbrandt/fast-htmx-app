@@ -24,7 +24,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @router.get("/github")
 async def auth_github(code: str):
-    token_url = f"https://github.com/login/oauth/access_token"
+    token_url = "https://github.com/login/oauth/access_token"
     params = {
         "client_id": GITHUB_CLIENT_ID,
         "client_secret": GITHUB_CLIENT_SECRET,
