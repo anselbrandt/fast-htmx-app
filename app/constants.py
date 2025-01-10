@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ENV_MODE = os.getenv("ENV_MODE", "DEV")
-ROOT_PATH = os.getenv("ROOT_PATH", "/api")
+ROOT_PATH = os.getenv("ROOT_PATH", "")
 HOST = os.getenv("HOST", "http://localhost:8000")
 
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
