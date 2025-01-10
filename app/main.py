@@ -14,7 +14,7 @@ from app.routers import auth_routes, login_routes, user_routes
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     process = Popen(
-        ["./tailwindcss", "-o", "static/styles.css"], stdout=PIPE, stderr=PIPE
+        ["./tailwindcss", "-o", "static/tailwind.css"], stdout=PIPE, stderr=PIPE
     )
     yield
     process.terminate()
