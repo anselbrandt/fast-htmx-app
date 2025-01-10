@@ -67,7 +67,7 @@ Below commands are for reference. Tailwind CLI is run automatically by FastAPI.
 ### Docker
 
 ```
-docker build -t fastapi-app .
+DOCKER_BUILDKIT=1 docker build --secret id=_env,src=.env -t fastapi-app .
 
 docker run -p 8000:8000 fastapi-app
 ```
