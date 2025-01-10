@@ -554,10 +554,6 @@ video {
   display: none;
 }
 
-.static {
-  position: static;
-}
-
 .m-2 {
   margin: 0.5rem;
 }

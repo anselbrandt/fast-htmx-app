@@ -7,17 +7,20 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app.constants import ROOT_PATH
+from app.constants import ENV_MODE, ROOT_PATH
 from app.routers import auth_routes, login_routes, user_routes
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    process = Popen(
-        ["./tailwindcss", "-o", "static/tailwind.css"], stdout=PIPE, stderr=PIPE
-    )
-    yield
-    process.terminate()
+    if ENV_MODE == "DEV":
+        process = Popen(
+            ["./tailwindcss", "-o", "static/tailwind.css"], stdout=PIPE, stderr=PIPE
+        )
+        yield
+        process.terminate()
+    else:
+        yield
 
 
 app = FastAPI(root_path=ROOT_PATH, lifespan=lifespan)

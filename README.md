@@ -63,3 +63,11 @@ Below commands are for reference. Tailwind CLI is run automatically by FastAPI.
 # Compile and minify your CSS for production
 ./tailwindcss -i input.css -o output.css --minify
 ```
+
+### Docker
+
+```
+docker build -t fastapi-app .
+
+docker run -p 8000:8000 fastapi-app
+```
