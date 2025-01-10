@@ -12,11 +12,9 @@ uv sync
 
 ```
 task dev
-```
 
 or
 
-```
 uv run uvicorn main:app --reload --reload-include '**/*.html' --reload-include '**/*.css'
 ```
 
@@ -24,15 +22,27 @@ uv run uvicorn main:app --reload --reload-include '**/*.html' --reload-include '
 
 ```
 task test
-```
 
 or
 
-```
 uv run pytest
 ```
 
+### Build CSS
+
+```
+task buildcss
+
+or
+
+./tailwindcss -o static/tailwind.css
+```
+
 ### Tailwind
+
+This project uses the [ Tailwind standalone CLI](https://tailwindcss.com/blog/standalone-cli)
+
+You must [download](https://github.com/tailwindlabs/tailwindcss/releases/latest) the build for your OS/arch.
 
 ```
 # Example for macOS arm64
