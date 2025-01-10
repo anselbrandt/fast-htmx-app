@@ -16,3 +16,4 @@ dependencies = [
 test = "uv run pytest"
 dev = "uv run uvicorn app.main:app --reload --reload-include '**/*.html' --reload-include '**/*.css'"
 start = "uv run uvicorn app.main:app"
+buildcss = "./tailwindcss -o static/tailwind.css"
