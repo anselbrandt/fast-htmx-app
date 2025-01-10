@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from subprocess import Popen, PIPE
 from typing import Optional
 
-from fastapi import FastAPI, Header, Request, Response
+from fastapi import FastAPI, Header, Request, Response, status
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -40,3 +40,9 @@ async def root(
         "root_path": ROOT_PATH,
     }
     return templates.TemplateResponse("index.html", context)
+
+
+@app.get("/health")
+async def root(request: Request, response: Response):
+    response.status_code = status.HTTP_200_OK
+    return {"status": "healthy"}
