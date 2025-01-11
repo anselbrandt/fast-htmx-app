@@ -7,10 +7,13 @@ from fastapi.templating import Jinja2Templates
 from app.constants import (
     ROOT_PATH,
     GITHUB_CLIENT_ID,
+    GITHUB_OAUTH_URL,
     GITHUB_REDIRECT_URI,
     GOOGLE_CLIENT_ID,
+    GOOGLE_OAUTH_URL,
     GOOGLE_REDIRECT_URI,
     MICROSOFT_CLIENT_ID,
+    MICROSOFT_OAUTH_URL,
     MICROSOFT_REDIRECT_URI,
 )
 
@@ -32,7 +35,7 @@ def login(
 
 @router.get("/github", response_class=HTMLResponse)
 async def login_github(request: Request):
-    link = f"https://github.com/login/oauth/authorize?client_id={GITHUB_CLIENT_ID}&redirect_uri={GITHUB_REDIRECT_URI}&scope=user%3Aemail"
+    link = f"{GITHUB_OAUTH_URL}?client_id={GITHUB_CLIENT_ID}&redirect_uri={GITHUB_REDIRECT_URI}&scope=user%3Aemail"
     context = {
         "request": request,
         "root_path": ROOT_PATH,
@@ -44,7 +47,7 @@ async def login_github(request: Request):
 
 @router.get("/google", response_class=HTMLResponse)
 async def login_google(request: Request):
-    link = f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
+    link = f"{GOOGLE_OAUTH_URL}?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
     context = {
         "request": request,
         "root_path": ROOT_PATH,
@@ -56,7 +59,7 @@ async def login_google(request: Request):
 
 @router.get("/microsoft", response_class=HTMLResponse)
 async def login_microsoft(request: Request):
-    link = f"https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id={MICROSOFT_CLIENT_ID}&response_type=code&redirect_uri={MICROSOFT_REDIRECT_URI}&response_mode=query&scope=https%3A%2F%2Fgraph.microsoft.com%2Fuser.read"
+    link = f"{MICROSOFT_OAUTH_URL}?client_id={MICROSOFT_CLIENT_ID}&response_type=code&redirect_uri={MICROSOFT_REDIRECT_URI}&response_mode=query&scope=https%3A%2F%2Fgraph.microsoft.com%2Fuser.read"
     context = {
         "request": request,
         "root_path": ROOT_PATH,

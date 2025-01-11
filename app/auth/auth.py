@@ -4,18 +4,24 @@ from app.constants import (
     GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET,
     GITHUB_REDIRECT_URI,
+    GITHUB_TOKEN_URL,
+    GITHUB_USER_URL,
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
     GOOGLE_REDIRECT_URI,
+    GOOGLE_TOKEN_URL,
+    GOOGLE_USER_URL,
+    GITHUB_USER_EMAIL_URL,
     MICROSOFT_CLIENT_ID,
     MICROSOFT_CLIENT_SECRET,
     MICROSOFT_REDIRECT_URI,
+    MICROSOFT_TOKEN_URL,
+    MICROSOFT_USER_URL,
 )
 from app.schemas import GithubUser, GoogleUser, MicrosoftUser, Provider, User
 
 
 def getGithubUser(code: str):
-    token_url = "https://github.com/login/oauth/access_token"
     params = {
         "client_id": GITHUB_CLIENT_ID,
         "client_secret": GITHUB_CLIENT_SECRET,
@@ -23,16 +29,16 @@ def getGithubUser(code: str):
         "redirect_uri": GITHUB_REDIRECT_URI,
     }
     headers = {"Accept": "application/json"}
-    token_response = httpx.post(token_url, params=params, headers=headers)
+    token_response = httpx.post(GITHUB_TOKEN_URL, params=params, headers=headers)
     access_token = token_response.json().get("access_token")
     user_response = httpx.get(
-        "https://api.github.com/user",
+        GITHUB_USER_URL,
         headers={"Authorization": f"Bearer {access_token}"},
     )
     user_info = user_response.json()
     if user_info["email"] is None:
         email_response = httpx.get(
-            "https://api.github.com/user/emails",
+            GITHUB_USER_EMAIL_URL,
             headers={"Authorization": f"Bearer {access_token}"},
         )
         emails = email_response.json()
@@ -57,7 +63,6 @@ def getGithubUser(code: str):
 
 
 def getGoogleUser(code: str):
-    token_url = "https://accounts.google.com/o/oauth2/token"
     data = {
         "code": code,
         "client_id": GOOGLE_CLIENT_ID,
@@ -65,10 +70,10 @@ def getGoogleUser(code: str):
         "redirect_uri": GOOGLE_REDIRECT_URI,
         "grant_type": "authorization_code",
     }
-    token_response = httpx.post(token_url, data=data)
+    token_response = httpx.post(GOOGLE_TOKEN_URL, data=data)
     access_token = token_response.json().get("access_token")
     user_response = httpx.get(
-        "https://www.googleapis.com/oauth2/v1/userinfo",
+        GOOGLE_USER_URL,
         headers={"Authorization": f"Bearer {access_token}"},
     )
     user_info = user_response.json()
@@ -83,7 +88,6 @@ def getGoogleUser(code: str):
 
 
 def getMicrosoftUser(code: str):
-    token_url = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
     data = {
         "client_id": MICROSOFT_CLIENT_ID,
         "scope": "User.Read",
@@ -93,10 +97,10 @@ def getMicrosoftUser(code: str):
         "client_secret": MICROSOFT_CLIENT_SECRET,
     }
     headers = {"Accept": "application/json"}
-    token_response = httpx.post(token_url, data=data, headers=headers)
+    token_response = httpx.post(MICROSOFT_TOKEN_URL, data=data, headers=headers)
     access_token = token_response.json().get("access_token")
     user_response = httpx.get(
-        "https://graph.microsoft.com/v1.0/me",
+        MICROSOFT_USER_URL,
         headers={"Authorization": f"Bearer {access_token}"},
     )
     user_info = user_response.json()
