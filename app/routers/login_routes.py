@@ -1,4 +1,5 @@
 from typing import Optional
+from urllib.parse import urlencode
 
 from fastapi import APIRouter, Header, Request, Response
 from fastapi.responses import HTMLResponse
@@ -35,7 +36,12 @@ def login(
 
 @router.get("/github", response_class=HTMLResponse)
 async def login_github(request: Request):
-    link = f"{GITHUB_OAUTH_URL}?client_id={GITHUB_CLIENT_ID}&redirect_uri={GITHUB_REDIRECT_URI}&scope=user%3Aemail"
+    params = {
+        "client_id": GITHUB_CLIENT_ID,
+        "redirect_uri": GITHUB_REDIRECT_URI,
+        "scope": "user:email",
+    }
+    link = f"{GITHUB_OAUTH_URL}?{urlencode(params)}"
     context = {
         "request": request,
         "root_path": ROOT_PATH,
@@ -47,7 +53,14 @@ async def login_github(request: Request):
 
 @router.get("/google", response_class=HTMLResponse)
 async def login_google(request: Request):
-    link = f"{GOOGLE_OAUTH_URL}?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
+    params = {
+        "response_type": "code",
+        "client_id": GOOGLE_CLIENT_ID,
+        "redirect_uri": GOOGLE_REDIRECT_URI,
+        "scope": "openid profile email",
+        "access_type": "offline",
+    }
+    link = f"{GOOGLE_OAUTH_URL}?{urlencode(params)}"
     context = {
         "request": request,
         "root_path": ROOT_PATH,
@@ -59,7 +72,14 @@ async def login_google(request: Request):
 
 @router.get("/microsoft", response_class=HTMLResponse)
 async def login_microsoft(request: Request):
-    link = f"{MICROSOFT_OAUTH_URL}?client_id={MICROSOFT_CLIENT_ID}&response_type=code&redirect_uri={MICROSOFT_REDIRECT_URI}&response_mode=query&scope=https%3A%2F%2Fgraph.microsoft.com%2Fuser.read"
+    params = {
+        "client_id": MICROSOFT_CLIENT_ID,
+        "response_type": "code",
+        "redirect_uri": MICROSOFT_REDIRECT_URI,
+        "response_mode": "query",
+        "scope": "https://graph.microsoft.com/user.read",
+    }
+    link = f"{MICROSOFT_OAUTH_URL}?{urlencode(params)}"
     context = {
         "request": request,
         "root_path": ROOT_PATH,
