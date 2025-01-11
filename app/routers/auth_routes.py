@@ -14,6 +14,7 @@ from app.constants import (
     MICROSOFT_CLIENT_SECRET,
     MICROSOFT_REDIRECT_URI,
 )
+from app.schemas import GithubUser, GoogleUser, MicrosoftUser, Provider, User
 
 router = APIRouter(prefix="/auth")
 
@@ -32,23 +33,23 @@ async def auth_github(code: str):
         "redirect_uri": GITHUB_REDIRECT_URI,
     }
     headers = {"Accept": "application/json"}
-    response = httpx.post(token_url, params=params, headers=headers)
-    access_token = response.json().get("access_token")
-    response = httpx.get(
+    token_response = httpx.post(token_url, params=params, headers=headers)
+    access_token = token_response.json().get("access_token")
+    user_response = httpx.get(
         "https://api.github.com/user",
         headers={"Authorization": f"Bearer {access_token}"},
     )
-    user_info = response.json()
+    user_info = user_response.json()
     if user_info["email"] is None:
-        new_response = httpx.get(
+        email_response = httpx.get(
             "https://api.github.com/user/emails",
             headers={"Authorization": f"Bearer {access_token}"},
         )
-        emails = new_response.json()
+        emails = email_response.json()
         merged = {**user_info, "email": emails[0]["email"]}
-        return merged
+        return GithubUser.model_validate((merged))
     else:
-        return user_info
+        return GithubUser.model_validate_json(user_info)
 
 
 @router.get("/google")
@@ -61,13 +62,14 @@ async def auth_google(code: str):
         "redirect_uri": GOOGLE_REDIRECT_URI,
         "grant_type": "authorization_code",
     }
-    response = httpx.post(token_url, data=data)
-    access_token = response.json().get("access_token")
-    user_info = httpx.get(
+    token_response = httpx.post(token_url, data=data)
+    access_token = token_response.json().get("access_token")
+    user_response = httpx.get(
         "https://www.googleapis.com/oauth2/v1/userinfo",
         headers={"Authorization": f"Bearer {access_token}"},
     )
-    return user_info.json()
+    user_info = user_response.json()
+    return GoogleUser.model_validate(user_info)
 
 
 @router.get("/microsoft")
@@ -82,10 +84,11 @@ async def auth_microsoft(code: str):
         "client_secret": MICROSOFT_CLIENT_SECRET,
     }
     headers = {"Accept": "application/json"}
-    response = httpx.post(token_url, data=data, headers=headers)
-    access_token = response.json().get("access_token")
-    user_info = httpx.get(
+    token_response = httpx.post(token_url, data=data, headers=headers)
+    access_token = token_response.json().get("access_token")
+    user_response = httpx.get(
         "https://graph.microsoft.com/v1.0/me",
         headers={"Authorization": f"Bearer {access_token}"},
     )
-    return user_info.json()
+    user_info = user_response.json()
+    return MicrosoftUser.model_validate(user_info)
