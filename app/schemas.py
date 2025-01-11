@@ -19,7 +19,7 @@ class Provider(StrEnum):
 
 class User(BaseModel):
     id: str
-    username: str
+    name: str
     email: EmailStr
     provider: Provider
 

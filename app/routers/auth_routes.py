@@ -47,9 +47,23 @@ async def auth_github(code: str):
         )
         emails = email_response.json()
         merged = {**user_info, "email": emails[0]["email"]}
-        return GithubUser.model_validate((merged))
+        githubUser = GithubUser.model_validate((merged))
+        user = User(
+            id=githubUser.id,
+            name=githubUser.name,
+            email=githubUser.email,
+            provider=Provider.GITHUB,
+        )
+        return user
     else:
-        return GithubUser.model_validate_json(user_info)
+        githubUser = GithubUser.model_validate_json(user_info)
+        user = User(
+            id=githubUser.id,
+            name=githubUser.name,
+            email=githubUser.email,
+            provider=Provider.GITHUB,
+        )
+        return user
 
 
 @router.get("/google")
@@ -69,7 +83,14 @@ async def auth_google(code: str):
         headers={"Authorization": f"Bearer {access_token}"},
     )
     user_info = user_response.json()
-    return GoogleUser.model_validate(user_info)
+    googleUser = GoogleUser.model_validate(user_info)
+    user = User(
+        id=googleUser.id,
+        name=googleUser.name,
+        email=googleUser.email,
+        provider=Provider.GOOGLE,
+    )
+    return user
 
 
 @router.get("/microsoft")
@@ -91,4 +112,11 @@ async def auth_microsoft(code: str):
         headers={"Authorization": f"Bearer {access_token}"},
     )
     user_info = user_response.json()
-    return MicrosoftUser.model_validate(user_info)
+    microsoftUser = MicrosoftUser.model_validate(user_info)
+    user = User(
+        id=microsoftUser.id,
+        name=microsoftUser.displayName,
+        email=microsoftUser.mail,
+        provider=Provider.MICROSOFT,
+    )
+    return user
