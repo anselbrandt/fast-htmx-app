@@ -1,4 +1,5 @@
 import os
+from urllib.parse import urlencode
 
 from dotenv import load_dotenv
 
@@ -29,3 +30,28 @@ MICROSOFT_REDIRECT_URI = HOST + ROOT_PATH + "/auth/microsoft"
 MICROSOFT_OAUTH_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
 MICROSOFT_TOKEN_URL = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
 MICROSOFT_USER_URL = "https://graph.microsoft.com/v1.0/me"
+
+githubParams = {
+    "client_id": GITHUB_CLIENT_ID,
+    "redirect_uri": GITHUB_REDIRECT_URI,
+    "scope": "user:email",
+}
+GITHUB_LOGIN_LINK = f"{GITHUB_OAUTH_URL}?{urlencode(githubParams)}"
+
+googleParams = {
+    "response_type": "code",
+    "client_id": GOOGLE_CLIENT_ID,
+    "redirect_uri": GOOGLE_REDIRECT_URI,
+    "scope": "openid profile email",
+    "access_type": "offline",
+}
+GOOGLE_LOGIN_LINK = f"{GOOGLE_OAUTH_URL}?{urlencode(googleParams)}"
+
+microsoftParams = {
+    "client_id": MICROSOFT_CLIENT_ID,
+    "response_type": "code",
+    "redirect_uri": MICROSOFT_REDIRECT_URI,
+    "response_mode": "query",
+    "scope": "https://graph.microsoft.com/user.read",
+}
+MICROSOFT_LOGIN_LINK = f"{MICROSOFT_OAUTH_URL}?{urlencode(microsoftParams)}"
