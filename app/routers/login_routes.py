@@ -32,7 +32,7 @@ def login(
 
 @router.get("/github", response_class=HTMLResponse)
 async def login_github(request: Request):
-    link = f"https://github.com/login/oauth/authorize?client_id={GITHUB_CLIENT_ID}&redirect_uri={GITHUB_REDIRECT_URI}&scope=repo%20user%3Aemail"
+    link = f"https://github.com/login/oauth/authorize?client_id={GITHUB_CLIENT_ID}&redirect_uri={GITHUB_REDIRECT_URI}&scope=user%3Aemail"
     context = {
         "request": request,
         "root_path": ROOT_PATH,
