@@ -1,15 +1,19 @@
-import os
 from urllib.parse import urlencode
+import base64
+import os
+import secrets
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
+base64_secret = base64.standard_b64encode(secrets.token_bytes(32)).decode("utf-8")
+
 ENV_MODE = os.getenv("ENV_MODE", "DEV")
 ROOT_PATH = os.getenv("ROOT_PATH", "")
 HOST = os.getenv("HOST", "http://localhost:8000")
 
-TOKEN_SECRET = os.getenv("TOKEN_SECRET")
+TOKEN_SECRET = os.getenv("TOKEN_SECRET", base64_secret)
 TOKEN_ALGORITHM = "HS256"
 
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")

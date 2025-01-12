@@ -9,7 +9,7 @@ def create_jwt(user: User):
     expiration = datetime.now() + timedelta(hours=24)
     token = jwt.encode(
         {
-            "user": user.name,
+            "name": user.name,
             "id": user.id,
             "email": user.email,
             "expiration": expiration.timestamp(),
