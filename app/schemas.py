@@ -1,6 +1,6 @@
 from enum import StrEnum
 
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, field_validator
 
 
 class Provider(StrEnum):
@@ -36,8 +36,7 @@ class GithubUser(BaseModel):
     name: str
     email: EmailStr
 
-    class Config:
-        extra = "ignore"
+    model_config = ConfigDict(extra="ignore")
 
 
 class GoogleUser(BaseModel):
@@ -45,8 +44,7 @@ class GoogleUser(BaseModel):
     name: str
     email: EmailStr
 
-    class Config:
-        extra = "ignore"
+    model_config = ConfigDict(extra="ignore")
 
 
 class MicrosoftUser(BaseModel):
@@ -54,5 +52,4 @@ class MicrosoftUser(BaseModel):
     displayName: str
     mail: EmailStr
 
-    class Config:
-        extra = "ignore"
+    model_config = ConfigDict(extra="ignore")
