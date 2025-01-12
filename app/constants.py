@@ -9,6 +9,9 @@ ENV_MODE = os.getenv("ENV_MODE", "DEV")
 ROOT_PATH = os.getenv("ROOT_PATH", "")
 HOST = os.getenv("HOST", "http://localhost:8000")
 
+TOKEN_SECRET = os.getenv("TOKEN_SECRET")
+TOKEN_ALGORITHM = "HS256"
+
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
 GITHUB_REDIRECT_URI = HOST + ROOT_PATH + "/auth/github"
