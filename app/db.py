@@ -19,9 +19,10 @@ def get_session():
 
 
 def add_user(session: Session, user: User):
-    # check both existing user (email and provider match)
-    # check if previous signup (email and different provider)
-    existing_user = session.exec(select(User).where(User.email == user.email)).first()
+    statement = select(User).where(
+        (User.email == user.email) & (User.provider_id == user.provider_id)
+    )
+    existing_user = session.exec(statement).first()
     if existing_user:
         return user
     session.add(user)
