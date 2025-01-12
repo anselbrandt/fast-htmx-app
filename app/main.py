@@ -1,37 +1,25 @@
 from contextlib import asynccontextmanager
-from subprocess import Popen, PIPE
 from typing import Optional
-import os
 
 from fastapi import FastAPI, Header, Request, Response, status
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app.constants import ENV_MODE, ROOT_PATH
+from app.constants import ROOT_PATH
 from app.routers import auth_routes, login_routes, user_routes
+from app.tailwind import tailwind
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    if ENV_MODE == "DEV":
-        process = None
-        try:
-            if not os.path.isfile("./tailwindcss"):
-                raise FileNotFoundError("tailwindcss command not found")
-            process = Popen(
-                ["./tailwindcss", "-o", "static/tailwind.css"], stdout=PIPE, stderr=PIPE
-            )
-            yield
-        except FileNotFoundError as e:
-            print(f"Error: {e}. TailwindCSS process not started.")
-            yield
-        finally:
-            if process:
-                process.terminate()
-                process.wait()
-    else:
+    try:
+        process = tailwind()
         yield
+    finally:
+        if process:
+            process.terminate()
+            process.wait()
 
 
 app = FastAPI(root_path=ROOT_PATH, lifespan=lifespan)
