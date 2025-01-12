@@ -17,7 +17,7 @@ def test_google_user():
 def test_google_base_user():
     googleUser = GoogleUser.model_validate_json(google_user_data)
     user = User(
-        id=googleUser.id,
+        provider_id=googleUser.id,
         name=googleUser.name,
         email=googleUser.email,
         provider=Provider.GOOGLE,

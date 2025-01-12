@@ -18,7 +18,7 @@ def test_microsoft_user():
 def test_microsoft_base_user():
     microsoftUser = MicrosoftUser.model_validate_json(microsoft_user_data)
     user = User(
-        id=microsoftUser.id,
+        provider_id=microsoftUser.id,
         name=microsoftUser.displayName,
         email=microsoftUser.mail,
         provider=Provider.MICROSOFT,

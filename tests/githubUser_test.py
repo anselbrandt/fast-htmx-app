@@ -18,7 +18,7 @@ def test_github_user():
 def test_github_base_user():
     githubUser = GithubUser.model_validate_json(github_user_data)
     user = User(
-        id=githubUser.id,
+        provider_id=githubUser.id,
         name=githubUser.name,
         email=githubUser.email,
         provider=Provider.GITHUB,

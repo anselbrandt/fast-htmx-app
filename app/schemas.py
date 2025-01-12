@@ -1,7 +1,8 @@
 from enum import StrEnum
-from typing import Optional
+from uuid import UUID, uuid4
 
-from pydantic import BaseModel, ConfigDict, EmailStr, field_validator, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, field_validator
+from sqlmodel import SQLModel, Field
 
 
 class Provider(StrEnum):
@@ -18,13 +19,14 @@ class Provider(StrEnum):
         return None
 
 
-class User(BaseModel):
-    id: str
+class User(SQLModel, table=True):
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
     name: str
     email: EmailStr
     provider: Provider
+    provider_id: str
 
-    @field_validator("id", mode="before")
+    @field_validator("provider_id", mode="before")
     @classmethod
     def convert_id_to_string(cls, value):
         if isinstance(value, int):
