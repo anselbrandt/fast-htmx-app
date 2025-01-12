@@ -1,4 +1,4 @@
-from app.schemas import User, GoogleUser, Provider
+from app.models import User, GoogleUser, Provider
 
 google_user_data = """
 {

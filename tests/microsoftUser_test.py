@@ -1,4 +1,4 @@
-from app.schemas import User, MicrosoftUser, Provider
+from app.models import User, MicrosoftUser, Provider
 
 
 microsoft_user_data = """

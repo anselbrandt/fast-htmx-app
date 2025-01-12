@@ -4,7 +4,6 @@ import os
 
 from app.constants import ENV_MODE
 
-
 log = logging.getLogger("uvicorn.error")
 
 

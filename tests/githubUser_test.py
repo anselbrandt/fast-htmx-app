@@ -1,4 +1,4 @@
-from app.schemas import User, GithubUser, Provider
+from app.models import User, GithubUser, Provider
 
 
 github_user_data = """

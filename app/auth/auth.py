@@ -18,7 +18,7 @@ from app.constants import (
     MICROSOFT_TOKEN_URL,
     MICROSOFT_USER_URL,
 )
-from app.schemas import GithubUser, GoogleUser, MicrosoftUser, Provider, User
+from app.models import GithubUser, GoogleUser, MicrosoftUser, Provider, User
 
 
 def getGithubUser(code: str):
