@@ -19,7 +19,6 @@ async def lifespan(app: FastAPI):
     finally:
         if process:
             process.terminate()
-            process.wait()
 
 
 app = FastAPI(root_path=ROOT_PATH, lifespan=lifespan)
