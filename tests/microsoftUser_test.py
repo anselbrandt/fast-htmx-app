@@ -1,4 +1,4 @@
-from app.schemas import User, MicrosoftUser
+from app.schemas import User, MicrosoftUser, Provider
 
 
 microsoft_user_data = """
@@ -13,3 +13,14 @@ microsoft_user_data = """
 def test_microsoft_user():
     microsoftUser = MicrosoftUser.model_validate_json(microsoft_user_data)
     assert isinstance(microsoftUser, MicrosoftUser)
+
+
+def test_microsoft_base_user():
+    microsoftUser = MicrosoftUser.model_validate_json(microsoft_user_data)
+    user = User(
+        id=microsoftUser.id,
+        name=microsoftUser.displayName,
+        email=microsoftUser.mail,
+        provider=Provider.MICROSOFT,
+    )
+    assert isinstance(user, User)

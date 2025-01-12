@@ -1,4 +1,4 @@
-from app.schemas import User, GithubUser
+from app.schemas import User, GithubUser, Provider
 
 
 github_user_data = """
@@ -13,3 +13,14 @@ github_user_data = """
 def test_github_user():
     githubUser = GithubUser.model_validate_json(github_user_data)
     assert isinstance(githubUser, GithubUser)
+
+
+def test_github_base_user():
+    githubUser = GithubUser.model_validate_json(github_user_data)
+    user = User(
+        id=githubUser.id,
+        name=githubUser.name,
+        email=githubUser.email,
+        provider=Provider.GITHUB,
+    )
+    assert isinstance(user, User)
