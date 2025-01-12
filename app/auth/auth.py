@@ -45,7 +45,7 @@ def getGithubUser(code: str):
         merged = {**user_info, "email": emails[0]["email"]}
         githubUser = GithubUser.model_validate((merged))
         user = User(
-            id=githubUser.id,
+            provider_id=githubUser.id,
             name=githubUser.name,
             email=githubUser.email,
             provider=Provider.GITHUB,
@@ -54,7 +54,7 @@ def getGithubUser(code: str):
     else:
         githubUser = GithubUser.model_validate_json(user_info)
         user = User(
-            id=githubUser.id,
+            provider_id=githubUser.id,
             name=githubUser.name,
             email=githubUser.email,
             provider=Provider.GITHUB,
@@ -79,7 +79,7 @@ def getGoogleUser(code: str):
     user_info = user_response.json()
     googleUser = GoogleUser.model_validate(user_info)
     user = User(
-        id=googleUser.id,
+        provider_id=googleUser.id,
         name=googleUser.name,
         email=googleUser.email,
         provider=Provider.GOOGLE,
@@ -106,7 +106,7 @@ def getMicrosoftUser(code: str):
     user_info = user_response.json()
     microsoftUser = MicrosoftUser.model_validate(user_info)
     user = User(
-        id=microsoftUser.id,
+        provider_id=microsoftUser.id,
         name=microsoftUser.displayName,
         email=microsoftUser.mail,
         provider=Provider.MICROSOFT,
