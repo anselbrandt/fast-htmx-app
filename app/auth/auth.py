@@ -21,7 +21,7 @@ from app.constants import (
 from app.models import GithubUser, GoogleUser, MicrosoftUser, Provider, User
 
 
-def getGithubUser(code: str):
+def getGithubUser(code: str) -> User:
     params = {
         "client_id": GITHUB_CLIENT_ID,
         "client_secret": GITHUB_CLIENT_SECRET,
@@ -45,7 +45,7 @@ def getGithubUser(code: str):
         merged = {**user_info, "email": emails[0]["email"]}
         githubUser = GithubUser.model_validate((merged))
         user = User(
-            provider_id=githubUser.id,
+            provider_id=str(githubUser.id),
             name=githubUser.name,
             email=githubUser.email,
             provider=Provider.GITHUB,
@@ -54,7 +54,7 @@ def getGithubUser(code: str):
     else:
         githubUser = GithubUser.model_validate_json(user_info)
         user = User(
-            provider_id=githubUser.id,
+            provider_id=str(githubUser.id),
             name=githubUser.name,
             email=githubUser.email,
             provider=Provider.GITHUB,
@@ -62,7 +62,7 @@ def getGithubUser(code: str):
         return user
 
 
-def getGoogleUser(code: str):
+def getGoogleUser(code: str) -> User:
     data = {
         "code": code,
         "client_id": GOOGLE_CLIENT_ID,
@@ -87,7 +87,7 @@ def getGoogleUser(code: str):
     return user
 
 
-def getMicrosoftUser(code: str):
+def getMicrosoftUser(code: str) -> User:
     data = {
         "client_id": MICROSOFT_CLIENT_ID,
         "scope": "User.Read",

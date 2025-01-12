@@ -11,7 +11,7 @@ class Provider(StrEnum):
     MICROSOFT = "Microsoft"
 
     @classmethod
-    def _missing_(cls, value):
+    def _missing_(cls, value: str):
         value = value.lower()
         for member in cls:
             if member.lower() == value:
@@ -23,7 +23,7 @@ class User(SQLModel, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     name: str
     email: EmailStr
-    provider: Provider
+    provider: str
     provider_id: str
 
     @field_validator("provider_id", mode="before")

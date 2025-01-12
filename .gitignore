@@ -16,3 +16,4 @@ wheels/
 *.json
 data/
 tailwindcss
+*.sqlite

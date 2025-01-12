@@ -23,8 +23,7 @@ include = ["pyproject.toml", "app/**/*.py", "tests/**/*.py", "utils/**/*.py"]
 
 [tool.taskipy.tasks]
 test = "uv run pytest -q"
-test_print = "uv run pytest -s"
-test_verbose = "uv run pytest"
+test_debug = "uv run pytest -s"
 dev = "uv run uvicorn app.main:app --reload --reload-include '**/*.html' --reload-include '**/*.css'"
 start = "uv run uvicorn app.main:app"
 buildcss = "./tailwindcss -o static/tailwind.css"
