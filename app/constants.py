@@ -1,6 +1,7 @@
 from urllib.parse import urlencode
 import base64
 import os
+from pathlib import Path
 import secrets
 
 from dotenv import load_dotenv
@@ -8,6 +9,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 base64_secret = base64.standard_b64encode(secrets.token_bytes(32)).decode("utf-8")
+
+UPLOAD_DIR = Path() / "uploads"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 ENV_MODE = os.getenv("ENV_MODE", "DEV")
 ROOT_PATH = os.getenv("ROOT_PATH", "")

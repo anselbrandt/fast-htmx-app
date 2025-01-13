@@ -7,7 +7,7 @@ from sqlmodel import Session
 from app.auth import getGithubUser, getGoogleUser, getMicrosoftUser
 from app.constants import COOKIE_NAME
 from app.db import get_session, add_user
-from app.auth.tokens import create_jwt
+from app.auth import create_jwt
 
 router = APIRouter(prefix="/auth")
 

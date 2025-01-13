@@ -8,7 +8,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.db import init_db
 from app.constants import ROOT_PATH
-from app.routers import auth_routes, login_routes, user_routes
+from app.routers import auth_routes, login_routes, user_routes, files_routes
 from app.tailwind import tailwind
 
 
@@ -29,6 +29,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(auth_routes)
 app.include_router(login_routes)
 app.include_router(user_routes)
+app.include_router(files_routes)
 templates = Jinja2Templates(directory="templates")
 
 
@@ -47,3 +48,16 @@ async def root(
 async def health(request: Request, response: Response):
     response.status_code = status.HTTP_200_OK
     return {"status": "healthy"}
+
+
+@app.get("/upload", response_class=HTMLResponse)
+async def upload(
+    request: Request,
+    response: Response,
+    hx_request: Optional[str] = Header(None),
+):
+    context = {
+        "request": request,
+        "root_path": ROOT_PATH,
+    }
+    return templates.TemplateResponse("upload.html", context)
