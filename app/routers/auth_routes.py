@@ -20,7 +20,7 @@ async def auth_github(code: str, session: Session = Depends(get_session)):
     user = getGithubUser(code)
     new_user = add_user(session, user)
     jwt_token = create_jwt(new_user)
-    response = JSONResponse(content={"message": f"Welcome, {user.name}"})
+    response = JSONResponse(content={**user.model_dump()})
     response.set_cookie(
         key="access_token",
         value=jwt_token,
@@ -37,7 +37,7 @@ async def auth_google(code: str, session: Session = Depends(get_session)):
     user = getGoogleUser(code)
     new_user = add_user(session, user)
     jwt_token = create_jwt(new_user)
-    response = JSONResponse(content={"message": f"Welcome, {user.name}"})
+    response = JSONResponse(content={**user.model_dump()})
     response.set_cookie(
         key="access_token",
         value=jwt_token,
@@ -54,7 +54,7 @@ async def auth_microsoft(code: str, session: Session = Depends(get_session)):
     user = getMicrosoftUser(code)
     new_user = add_user(session, user)
     jwt_token = create_jwt(new_user)
-    response = JSONResponse(content={"message": f"Welcome, {user.name}"})
+    response = JSONResponse(content={**user.model_dump()})
     response.set_cookie(
         key="access_token",
         value=jwt_token,

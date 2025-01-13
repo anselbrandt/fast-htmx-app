@@ -29,6 +29,6 @@ def user_profile(
     context = {
         "request": request,
         "root_path": ROOT_PATH,
-        "username": user["name"],
+        "user": user,
     }
     return templates.TemplateResponse("profile.html", context)
