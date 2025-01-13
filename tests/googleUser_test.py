@@ -1,4 +1,6 @@
-from app.models import User, GoogleUser, Provider
+from app.user_models import User, GoogleUser, Provider
+
+from uuid import uuid4
 
 google_user_data = """
 {
@@ -17,6 +19,7 @@ def test_google_user():
 def test_google_base_user():
     googleUser = GoogleUser.model_validate_json(google_user_data)
     user = User(
+        id=str(uuid4()),
         provider_id=googleUser.id,
         name=googleUser.name,
         email=googleUser.email,

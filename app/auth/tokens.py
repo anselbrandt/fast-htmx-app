@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import jwt
 
 from app.constants import TOKEN_SECRET, TOKEN_ALGORITHM
-from app.models import User
+from app.user_models import User
 
 
 def create_jwt(user: User):
