@@ -1,5 +1,4 @@
 import httpx
-from uuid import uuid4
 
 from app.constants import (
     GITHUB_CLIENT_ID,
@@ -46,7 +45,6 @@ def getGithubUser(code: str) -> User:
         merged = {**user_info, "email": emails[0]["email"]}
         githubUser = GithubUser.model_validate((merged))
         user = User(
-            id=str(uuid4()),
             provider_id=str(githubUser.id),
             name=githubUser.name,
             email=githubUser.email,
@@ -56,7 +54,6 @@ def getGithubUser(code: str) -> User:
     else:
         githubUser = GithubUser.model_validate_json(user_info)
         user = User(
-            id=str(uuid4()),
             provider_id=str(githubUser.id),
             name=githubUser.name,
             email=githubUser.email,
@@ -82,7 +79,6 @@ def getGoogleUser(code: str) -> User:
     user_info = user_response.json()
     googleUser = GoogleUser.model_validate(user_info)
     user = User(
-        id=str(uuid4()),
         provider_id=googleUser.id,
         name=googleUser.name,
         email=googleUser.email,
@@ -110,7 +106,6 @@ def getMicrosoftUser(code: str) -> User:
     user_info = user_response.json()
     microsoftUser = MicrosoftUser.model_validate(user_info)
     user = User(
-        id=str(uuid4()),
         provider_id=microsoftUser.id,
         name=microsoftUser.displayName,
         email=microsoftUser.mail,

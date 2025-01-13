@@ -19,7 +19,7 @@ class Provider(StrEnum):
 
 
 class User(SQLModel, table=True):
-    id: str = Field(primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     name: str
     email: EmailStr
     provider: str

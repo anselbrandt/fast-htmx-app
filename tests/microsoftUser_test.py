@@ -1,8 +1,5 @@
 from app.user_models import User, MicrosoftUser, Provider
 
-from uuid import uuid4
-
-
 microsoft_user_data = """
 {
   "id": "000462d53c8abac0",
@@ -20,7 +17,6 @@ def test_microsoft_user():
 def test_microsoft_base_user():
     microsoftUser = MicrosoftUser.model_validate_json(microsoft_user_data)
     user = User(
-        id=str(uuid4()),
         provider_id=microsoftUser.id,
         name=microsoftUser.displayName,
         email=microsoftUser.mail,

@@ -1,8 +1,5 @@
 from app.user_models import User, GithubUser, Provider
 
-from uuid import uuid4
-
-
 github_user_data = """
 {
   "id": 1234567,
@@ -20,7 +17,6 @@ def test_github_user():
 def test_github_base_user():
     githubUser = GithubUser.model_validate_json(github_user_data)
     user = User(
-        id=str(uuid4()),
         provider_id=str(githubUser.id),
         name=githubUser.name,
         email=githubUser.email,
