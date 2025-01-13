@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from sqlmodel import Session
 
 from app.auth import getGithubUser, getGoogleUser, getMicrosoftUser
+from app.constants import COOKIE_NAME
 from app.db import get_session, add_user
 from app.auth.tokens import create_jwt
 
@@ -22,7 +23,7 @@ async def auth_github(code: str, session: Session = Depends(get_session)):
     jwt_token = create_jwt(new_user)
     response = JSONResponse(content={**user.model_dump()})
     response.set_cookie(
-        key="access_token",
+        key=COOKIE_NAME,
         value=jwt_token,
         httponly=True,
         max_age=86400,
@@ -39,7 +40,7 @@ async def auth_google(code: str, session: Session = Depends(get_session)):
     jwt_token = create_jwt(new_user)
     response = JSONResponse(content={**user.model_dump()})
     response.set_cookie(
-        key="access_token",
+        key=COOKIE_NAME,
         value=jwt_token,
         httponly=True,
         max_age=86400,
@@ -56,7 +57,7 @@ async def auth_microsoft(code: str, session: Session = Depends(get_session)):
     jwt_token = create_jwt(new_user)
     response = JSONResponse(content={**user.model_dump()})
     response.set_cookie(
-        key="access_token",
+        key=COOKIE_NAME,
         value=jwt_token,
         httponly=True,
         max_age=86400,

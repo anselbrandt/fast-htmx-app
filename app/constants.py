@@ -13,6 +13,7 @@ ENV_MODE = os.getenv("ENV_MODE", "DEV")
 ROOT_PATH = os.getenv("ROOT_PATH", "")
 HOST = os.getenv("HOST", "http://localhost:8000")
 
+COOKIE_NAME = os.getenv("COOKIE_NAME", "cookie")
 TOKEN_SECRET = os.getenv("TOKEN_SECRET", base64_secret)
 TOKEN_ALGORITHM = "HS256"
 

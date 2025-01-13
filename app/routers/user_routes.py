@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import jwt
 
-from app.constants import ROOT_PATH, TOKEN_SECRET, TOKEN_ALGORITHM
+from app.constants import ROOT_PATH, COOKIE_NAME, TOKEN_SECRET, TOKEN_ALGORITHM
 from utils import generateFruitname
 
 router = APIRouter(prefix="/user")
@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory="templates")
 def user_profile(
     request: Request, response: Response, hx_request: Optional[str] = Header(None)
 ):
-    token = request.cookies.get("access_token")
+    token = request.cookies.get(COOKIE_NAME)
     if token is None:
         context = {
             "request": request,
