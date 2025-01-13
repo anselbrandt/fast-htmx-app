@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 @router.get("/profile", response_class=HTMLResponse)
-def user_profile(
+async def user_profile(
     request: Request, response: Response, hx_request: Optional[str] = Header(None)
 ):
     token = request.cookies.get(COOKIE_NAME)
