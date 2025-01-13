@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Optional
 from uuid import uuid4
 
@@ -11,6 +10,7 @@ from fastapi import (
     status,
     UploadFile,
 )
+from fastapi.responses import JSONResponse
 
 from app.constants import UPLOAD_DIR
 
@@ -29,7 +29,7 @@ async def create_upload(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="No file provided."
         )
-    secure_file_name = f"{uuid4().hex}_{Path(file_name).name}"
+    secure_file_name = f"{uuid4().hex}_{file_name}"
     try:
         data = await file_upload.read()
         save_to = UPLOAD_DIR / secure_file_name
@@ -41,4 +41,10 @@ async def create_upload(
             detail=f"File upload failed: {str(error)}",
         )
 
-    return {"filename": secure_file_name, "message": "File uploaded successfully."}
+    return JSONResponse(
+        content={
+            "filename": secure_file_name,
+            "message": "File uploaded successfully.",
+        },
+        status_code=status.HTTP_200_OK,
+    )
