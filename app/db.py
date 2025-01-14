@@ -24,7 +24,7 @@ def add_user(session: Session, user: User):
     )
     existing_user = session.exec(statement).first()
     if existing_user:
-        return user
+        return existing_user
     session.add(user)
     session.commit()
     session.refresh(user)
