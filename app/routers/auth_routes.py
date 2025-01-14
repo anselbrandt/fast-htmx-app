@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response, status
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.templating import Jinja2Templates
@@ -14,6 +14,13 @@ router = APIRouter(prefix="/auth")
 templates = Jinja2Templates(directory="templates")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+@router.post("/logout")
+async def logout(response: Response):
+    response.delete_cookie(COOKIE_NAME)
+    response.status_code = status.HTTP_200_OK
+    return response
 
 
 @router.get("/github")
