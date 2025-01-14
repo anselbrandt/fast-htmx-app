@@ -50,7 +50,7 @@ async def health(request: Request, response: Response):
     return {"status": "healthy"}
 
 
-@app.get("/dropzone", response_class=HTMLResponse)
+@app.get("/upload", response_class=HTMLResponse)
 async def upload(
     request: Request,
     response: Response,
@@ -60,17 +60,4 @@ async def upload(
         "request": request,
         "root_path": ROOT_PATH,
     }
-    return templates.TemplateResponse("dropzone.html", context)
-
-
-@app.get("/htmx-upload", response_class=HTMLResponse)
-async def htmx_upload(
-    request: Request,
-    response: Response,
-    hx_request: Optional[str] = Header(None),
-):
-    context = {
-        "request": request,
-        "root_path": ROOT_PATH,
-    }
-    return templates.TemplateResponse("htmx-upload.html", context)
+    return templates.TemplateResponse("upload.html", context)
